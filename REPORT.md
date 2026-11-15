@@ -29,6 +29,10 @@ Evidence: [test results](evidence/submission/test-results.xml),
 [MLflow candidates](evidence/submission/mlflow-candidates.json),
 [successful Airflow run](evidence/submission/airflow-success.json), and
 [actual Docker inference](evidence/submission/docker-inference.json).
+The final Airflow-trained model was also tested inside the inference image with
+matching MLflow run ID: [final container verification](evidence/submission/docker-final-airflow-model.json).
+See [final Airflow run](evidence/submission/airflow-final.json) and
+[final model comparison](evidence/submission/mlflow-final-candidates.json).
 See [STATUS.md](STATUS.md) for remaining infrastructure and provider limitations.
 Kubernetes is disabled on this workstation; a successful cluster deployment has
 not been demonstrated. No healthy Kubernetes results have been fabricated.
@@ -37,15 +41,17 @@ not been demonstrated. No healthy Kubernetes results have been fabricated.
 
 Run `python scripts/collect_evidence.py` after bringing up the services. It records
 timestamps, the exact prompts, request identifiers, answers, and actual tool
-responses. Preserve reviewed files in `evidence/submission/` and link them below.
+responses. Five actual conversations are included below. They used rules mode
+against real tools: DVC, MLflow and Airflow succeeded; Kubernetes failures were
+reported as unknown state. LLM-provider execution remains unverified without a key.
 
 | Scenario | Required result to verify | Final evidence |
 |---|---|---|
-| Dataset provenance | Actual commit and MD5 match DVC and MLflow tags | Verified; see DVC and MLflow exports above |
-| Candidate selection | Recent recorded runs, F1 comparison and readiness caveat | Verified; see MLflow export above |
-| Pipeline execution | Actual DAG ID/run ID, terminal state and task statuses | Verified; all five tasks succeeded |
-| Deployment diagnosis | Two desired replicas, actual availability, image/run ID, events/logs | Container verified; cluster evidence pending enablement |
-| Multi-tool reasoning | Correlated results from all four integrations; no automatic retraining | Supported; Kubernetes must be reported unknown while disabled |
+| Dataset provenance | Actual commit and MD5 match DVC and MLflow tags | [Conversation 1](evidence/submission/conversation-1.json) |
+| Candidate selection | Recent recorded runs, F1 comparison and readiness caveat | [Conversation 2](evidence/submission/conversation-2.json) |
+| Pipeline execution | Actual DAG ID/run ID, terminal state and task statuses | [Conversation 3](evidence/submission/conversation-3.json); all tasks succeeded |
+| Deployment diagnosis | Actual availability, image/run ID, events/logs | [Conversation 4](evidence/submission/conversation-4.json); cluster unavailable, healthy deployment pending |
+| Multi-tool reasoning | All four integrations; no automatic retraining | [Conversation 5](evidence/submission/conversation-5.json); cluster state unknown |
 
 Capture screenshots of each service for the defense. JSON exports are acceptable
 evidence too, but must show actual service responses rather than example values.

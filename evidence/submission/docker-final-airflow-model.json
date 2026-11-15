@@ -1,0 +1,31 @@
+{
+  "image": "mlops-iris:verified-airflow",
+  "readiness_status": 200,
+  "readiness": {
+    "status": "ready",
+    "model": {
+      "run_id": "97be2a3fdbc24e7195db8a848ca95130",
+      "git_commit": "d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  },
+  "prediction_status": 200,
+  "prediction": {
+    "predictions": [
+      0
+    ],
+    "model": {
+      "run_id": "97be2a3fdbc24e7195db8a848ca95130",
+      "git_commit": "d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  }
+}

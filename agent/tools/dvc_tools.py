@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 
 import yaml
@@ -25,11 +26,14 @@ def dataset_version(rev: str = "HEAD") -> dict:
 
 
 def data_status() -> dict:
-    return {"changes": json.loads(command(["dvc", "status", "--json"]))}
+    """Check source data; Airflow's generated training artifacts have separate freshness."""
+    return {"dataset": "data/iris.csv", "changes": json.loads(command([
+        sys.executable, "-m", "dvc", "status", "data/iris.csv.dvc", "--json"]))}
 
 
 def compare_versions(old_rev: str, new_rev: str = "HEAD") -> dict:
-    return json.loads(command(["dvc", "diff", "--json", revision(old_rev), revision(new_rev)]))
+    return json.loads(command([sys.executable, "-m", "dvc", "diff", "--json",
+                               revision(old_rev), revision(new_rev)]))
 
 
 def checkout_dataset(rev: str, output_dir: str) -> dict:

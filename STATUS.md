@@ -13,7 +13,8 @@ Verified on 15 November 2026 in this workspace:
 | Validation failure | Failed on attempt 3; all four later tasks became `upstream_failed` |
 | Quality failure | First four tasks succeeded, gate failed on attempt 3; approved model run ID was preserved |
 | Recovery | Normal Airflow run succeeded after both injections |
-| Docker inference | Image built; actual readiness and prediction returned HTTP 200 and class 0 |
+| Docker inference | Final Airflow-trained model loaded in the image; actual readiness/prediction returned HTTP 200, class 0, and matching model run ID |
+| Five conversations | Exported with real tool results in rules mode; only disabled Kubernetes tools failed |
 | Kubernetes | Disabled in Docker Desktop; manifests supplied, cluster deployment unverified |
 | LLM provider | Structured tool-calling implementation supplied; no API key configured, provider call unverified |
 

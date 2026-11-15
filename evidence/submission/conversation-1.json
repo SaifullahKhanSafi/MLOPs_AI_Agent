@@ -1,0 +1,139 @@
+{
+  "captured_at": "2026-11-15T17:05:55.945309+00:00",
+  "prompt": "Which dataset version is currently tracked?",
+  "request_id": "6a43a3d1-9e20-45bc-8675-64e77f44f1c7",
+  "answer": "Facts: Dataset reference: {\"git_commit\": \"d6f630f7303dc8da9243c3dc0f823cf87018dc71\", \"dvc_file\": \"data/iris.csv.dvc\", \"outputs\": [{\"md5\": \"4224576f0267bf88902f87f0f6200967\", \"size\": 2757, \"hash\": \"md5\", \"path\": \"iris.csv\"}], \"reproduce\": [\"git worktree add ../mlops-reproduce d6f630f7303dc8da9243c3dc0f823cf87018dc71\", \"cd ../mlops-reproduce\", \"dvc pull\", \"dvc repro\"]}\nLocal DVC changes: {\"dataset\": \"data/iris.csv\", \"changes\": {}}\nUnknowns: See tool evidence for scope; health is point-in-time.\nRecommendations: Resolve reported failures and recheck status.",
+  "evidence": [
+    {
+      "tool": "dvc_list",
+      "status": "ok",
+      "data": {
+        "tracked_files": [
+          "data\\iris.csv.dvc"
+        ],
+        "pipeline": {
+          "stages": {
+            "validate": {
+              "cmd": "python -m training.train validate",
+              "deps": [
+                "data/iris.csv",
+                "training/train.py"
+              ],
+              "outs": [
+                "artifacts/validation.json"
+              ]
+            },
+            "preprocess": {
+              "cmd": "python -m training.train preprocess",
+              "deps": [
+                "data/iris.csv",
+                "artifacts/validation.json",
+                "training/train.py"
+              ],
+              "outs": [
+                "artifacts/processed.npz"
+              ]
+            },
+            "train": {
+              "cmd": "python -m training.train train",
+              "deps": [
+                "artifacts/processed.npz",
+                "training/train.py"
+              ],
+              "outs": [
+                "artifacts/candidate.joblib"
+              ]
+            },
+            "evaluate": {
+              "cmd": "python -m training.train evaluate",
+              "always_changed": true,
+              "deps": [
+                "artifacts/candidate.joblib",
+                "artifacts/processed.npz",
+                "data/iris.csv",
+                "training/train.py"
+              ],
+              "outs": [
+                {
+                  "artifacts/run.json": {
+                    "cache": false
+                  }
+                }
+              ],
+              "metrics": [
+                {
+                  "artifacts/metrics.json": {
+                    "cache": false
+                  }
+                }
+              ]
+            },
+            "quality_gate": {
+              "cmd": "python -m training.train quality_gate",
+              "deps": [
+                "artifacts/run.json",
+                "artifacts/candidate.joblib",
+                "training/train.py"
+              ],
+              "outs": [
+                {
+                  "artifacts/model.joblib": {
+                    "cache": false,
+                    "persist": true
+                  }
+                },
+                {
+                  "artifacts/model_metadata.json": {
+                    "cache": false,
+                    "persist": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "error": null,
+      "duration_ms": 15.0,
+      "request_id": "6a43a3d1-9e20-45bc-8675-64e77f44f1c7"
+    },
+    {
+      "tool": "dvc_version",
+      "status": "ok",
+      "data": {
+        "git_commit": "d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+        "dvc_file": "data/iris.csv.dvc",
+        "outputs": [
+          {
+            "md5": "4224576f0267bf88902f87f0f6200967",
+            "size": 2757,
+            "hash": "md5",
+            "path": "iris.csv"
+          }
+        ],
+        "reproduce": [
+          "git worktree add ../mlops-reproduce d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+          "cd ../mlops-reproduce",
+          "dvc pull",
+          "dvc repro"
+        ]
+      },
+      "error": null,
+      "duration_ms": 110.0,
+      "request_id": "6a43a3d1-9e20-45bc-8675-64e77f44f1c7"
+    },
+    {
+      "tool": "dvc_status",
+      "status": "ok",
+      "data": {
+        "dataset": "data/iris.csv",
+        "changes": {}
+      },
+      "error": null,
+      "duration_ms": 2281.0,
+      "request_id": "6a43a3d1-9e20-45bc-8675-64e77f44f1c7"
+    }
+  ],
+  "confirmation_token": null,
+  "proposed_action": null
+}

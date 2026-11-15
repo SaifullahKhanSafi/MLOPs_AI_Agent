@@ -1,0 +1,159 @@
+{
+  "best": {
+    "run_id": "97be2a3fdbc24e7195db8a848ca95130",
+    "status": "FINISHED",
+    "start_time": 1794761958925,
+    "metrics": {
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473
+    },
+    "params": {
+      "n_estimators": "100",
+      "max_depth": "5",
+      "random_state": "42",
+      "test_size": "0.25"
+    },
+    "tags": {
+      "mlflow.user": "airflow",
+      "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+      "mlflow.source.type": "LOCAL",
+      "mlflow.runName": "sincere-crane-564",
+      "git_commit": "d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "quality_gate": "passed"
+    }
+  },
+  "comparison": [
+    {
+      "run_id": "97be2a3fdbc24e7195db8a848ca95130",
+      "status": "FINISHED",
+      "start_time": 1794761958925,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "airflow",
+        "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.runName": "sincere-crane-564",
+        "git_commit": "d6f630f7303dc8da9243c3dc0f823cf87018dc71",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    },
+    {
+      "run_id": "3edff164476f4f68b4a949a575dbefd0",
+      "status": "FINISHED",
+      "start_time": 1794761420015,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "airflow",
+        "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.runName": "rare-toad-269",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    },
+    {
+      "run_id": "a53dd974e3b948bebbed5bd43572f6e4",
+      "status": "FINISHED",
+      "start_time": 1794761279465,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "airflow",
+        "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.runName": "enchanting-lark-714",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "failed"
+      }
+    },
+    {
+      "run_id": "1c9f74448d194f3f83edd5e8fe12c964",
+      "status": "FINISHED",
+      "start_time": 1794760998076,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "airflow",
+        "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.runName": "delightful-wren-884",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    },
+    {
+      "run_id": "5488a4d4b9d34e00a183bc7f846f440a",
+      "status": "FINISHED",
+      "start_time": 1794760840176,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "SKS",
+        "mlflow.source.name": "C:\\Users\\SKS\\Desktop\\mlops_A3\\training\\train.py",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.source.git.commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "mlflow.runName": "incongruous-eel-877",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    }
+  ],
+  "metric": "f1",
+  "direction": "max",
+  "selection_scope": "latest 5 runs in iris-classifier",
+  "caution": "Metric rank alone does not establish production readiness"
+}

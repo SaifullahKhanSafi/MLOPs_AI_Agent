@@ -11,8 +11,11 @@ the Kubernetes and LLM demonstration steps below.
    limits. An engine restart interrupted an earlier build; its exact cause was
    not established. Images and services now use fewer dependencies/workers.
 
-2. **Enable Kubernetes.** Open Docker Desktop > Settings > Kubernetes > Enable
-   Kubernetes. Wait for Ready. From this project in PowerShell:
+2. **Enable Kubernetes.** Open Docker Desktop's Kubernetes view > Create cluster
+   and create a local cluster; older versions use Settings > Kubernetes > Enable
+   Kubernetes. Wait for Ready. If using kind, use Docker Desktop's containerd image
+   store as required by its [official guidance](https://docs.docker.com/desktop/use-desktop/kubernetes/).
+   From this project in PowerShell:
 
    ```powershell
    $env:Path = "$PWD\.venv\Scripts;$env:Path"

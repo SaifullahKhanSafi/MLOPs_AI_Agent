@@ -1,0 +1,34 @@
+{
+  "captured_at": "2026-11-15T17:06:21.437044+00:00",
+  "prompt": "Why is my prediction API unavailable? Check deployment health.",
+  "request_id": "75bb1a2b-9aa0-4d46-96df-7e818b75544b",
+  "answer": "Facts: No verified operational facts are available.\nUnknowns: k8s_workloads: RuntimeError: tool failed; state is unknown\nk8s_services: RuntimeError: tool failed; state is unknown\nk8s_events: RuntimeError: tool failed; state is unknown\nRecommendations: Resolve reported failures and recheck status.",
+  "evidence": [
+    {
+      "tool": "k8s_workloads",
+      "status": "error",
+      "data": null,
+      "error": "RuntimeError: tool failed; state is unknown",
+      "duration_ms": 5829.0,
+      "request_id": "75bb1a2b-9aa0-4d46-96df-7e818b75544b"
+    },
+    {
+      "tool": "k8s_services",
+      "status": "error",
+      "data": null,
+      "error": "RuntimeError: tool failed; state is unknown",
+      "duration_ms": 218.0,
+      "request_id": "75bb1a2b-9aa0-4d46-96df-7e818b75544b"
+    },
+    {
+      "tool": "k8s_events",
+      "status": "error",
+      "data": null,
+      "error": "RuntimeError: tool failed; state is unknown",
+      "duration_ms": 141.0,
+      "request_id": "75bb1a2b-9aa0-4d46-96df-7e818b75544b"
+    }
+  ],
+  "confirmation_token": null,
+  "proposed_action": null
+}

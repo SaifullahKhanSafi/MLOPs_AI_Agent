@@ -17,7 +17,8 @@ service responses in normal operation. An unavailable tool returns an explicit e
 - Docker Desktop using Linux containers and Compose v2. Allow room for multiple
   ML images: at least 10 GB free disk is recommended. Avoid parallel image builds
   on an 8 GB RAM workstation; allow 4-6 GB to Docker when resources permit.
-- Docker Desktop **Settings > Kubernetes > Enable Kubernetes**, then wait for Ready.
+- Create a local cluster in Docker Desktop's **Kubernetes** view and wait for Ready
+  (older versions use **Settings > Kubernetes > Enable Kubernetes**).
 - `kubectl` on PATH; `kubectl config current-context` should show `docker-desktop`.
 - An OpenAI API key for LLM mode. Rules mode works without a paid key but is a
   deterministic integration/diagnostic mode, not an LLM demonstration.
@@ -174,10 +175,12 @@ kubectl -n mlops-agent port-forward service/iris-api 8001:80
 Leave port forwarding running in a separate terminal. The deployment uses an image
 tag equal to the actual MLflow run ID and labels pods with `model-run-id`; readiness
 returns the baked model metadata. Retraining does not silently redeploy: run the
-deployment script again for an approved replacement. Docker Desktop shares its
-local image store with its Kubernetes cluster. For kind/minikube, load the image
-into that cluster first. For a remote cluster, push it to an accessible registry and
-adapt the manifest image.
+deployment script again for an approved replacement. Ensure the cluster can access
+the built image. For standalone kind/minikube, load the image into that cluster
+first. Image visibility depends on the provisioner and image
+store: Docker Desktop's kind provisioner requires the containerd image store.
+See [Docker's cluster/image-store guidance](https://docs.docker.com/desktop/use-desktop/kubernetes/).
+For a remote cluster, push the image to an accessible registry and adapt the manifest image.
 
 Test from another PowerShell terminal:
 
