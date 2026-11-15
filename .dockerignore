@@ -9,6 +9,9 @@ __pycache__
 .dvc
 evidence
 screenshots
+mlruns
+mlflow.db
+*.egg-info
 artifacts/*
 !artifacts/model.joblib
 !artifacts/model_metadata.json

@@ -142,6 +142,7 @@ def test_airflow_authentication_and_v2_paths(monkeypatch):
     monkeypatch.setattr(af.httpx, "Client", lambda **kw: original(transport=transport, **kw))
     assert af.dag_runs() == {"dag_runs": []}
     assert requests[1].url.path == "/api/v2/dags/training_pipeline/dagRuns"
+    assert requests[1].url.params["order_by"] == "-run_after"
 
 
 def test_best_run_excludes_failed_missing_nan_and_handles_min(monkeypatch):
@@ -172,6 +173,17 @@ def test_logs_record_only_metadata_without_secrets(caplog):
     assert record["request_id"] == "request-123"
     assert "test-secret" not in caplog.text
     assert "test-secret" not in json.dumps(redact({"logs": "api_key=test-secret"}))
+
+
+def test_redaction_preserves_json_types_and_handles_real_log_content():
+    data = {"token": 123, "optional_token": None, "count": 3,
+            "logs": 'Task log: "token": null, password=hidden\nTraceback: \\path\\file.py'}
+    result = redact(data)
+    assert result["token"] == "[REDACTED]"
+    assert result["optional_token"] is None
+    assert result["count"] == 3
+    assert "hidden" not in result["logs"]
+    assert json.loads(json.dumps(result)) == result
 
 
 def test_chat_auth_and_invalid_requests():

@@ -14,6 +14,7 @@ if (-not (Test-Path .venv/Scripts/python.exe)) {
 $env:Path = "$PWD\.venv\Scripts;$env:Path"
 Run-Checked python @('-m', 'pip', 'install', '-e', '.[dev]')
 Run-Checked python @('scripts/bootstrap.py')
+Run-Checked dvc @('add', 'data/iris.csv')
 Run-Checked docker @('compose', '--parallel', '1', 'up', '-d', '--build', '--wait', '--wait-timeout', '900')
 Run-Checked dvc @('repro')
 Run-Checked python @('-m', 'ruff', 'check', '.')

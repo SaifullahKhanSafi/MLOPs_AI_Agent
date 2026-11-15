@@ -4,7 +4,7 @@
 
 The implementation combines a workstation conversational operator, real DVC/Git
 provenance, an MLflow tracking server, a PostgreSQL-backed Airflow 3 LocalExecutor,
-and a Kubernetes-hosted FastAPI Iris classifier. The full system diagram and tool
+and manifests for a Kubernetes-hosted FastAPI Iris classifier. The full system diagram and tool
 permission table are in [architecture.md](architecture.md). Each module offers at
 least four typed callable tools. [README.md](README.md) contains reproducible setup,
 service launch, deployment, interaction and failure-injection commands.
@@ -17,9 +17,21 @@ Service, ConfigMap, CPU/memory requests/limits, probes and non-root execution.
 
 ## Verification results
 
-See [STATUS.md](STATUS.md) for actual workspace verification. Code and automated
-tests are distinct from live service evidence. Any unavailable infrastructure must
-remain marked pending until its exported responses have been reviewed.
+Actual local checks passed: 19 pytest cases, lint, the full DVC pipeline against
+both SQLite and the Docker MLflow server, an authenticated Airflow 3 DAG run with
+all five tasks successful, and prediction/readiness calls to the built Docker image.
+The measured model achieved **macro F1 0.922963** and **accuracy 0.921053**, clearing
+the configured 0.90 gate. DVC push/pull in an isolated Git worktree reproduced MD5
+`4224576f0267bf88902f87f0f6200967` exactly.
+
+Evidence: [test results](evidence/submission/test-results.xml),
+[DVC reproduction](evidence/submission/dvc-reproduction.json),
+[MLflow candidates](evidence/submission/mlflow-candidates.json),
+[successful Airflow run](evidence/submission/airflow-success.json), and
+[actual Docker inference](evidence/submission/docker-inference.json).
+See [STATUS.md](STATUS.md) for remaining infrastructure and provider limitations.
+Kubernetes is disabled on this workstation; a successful cluster deployment has
+not been demonstrated. No healthy Kubernetes results have been fabricated.
 
 ## Five conversations and actual evidence
 
@@ -29,11 +41,11 @@ responses. Preserve reviewed files in `evidence/submission/` and link them below
 
 | Scenario | Required result to verify | Final evidence |
 |---|---|---|
-| Dataset provenance | Actual commit and MD5 match DVC and MLflow tags | Pending live capture/review |
-| Candidate selection | Last five recorded runs, F1 comparison and readiness caveat | Pending live capture/review |
-| Pipeline execution | Actual DAG ID/run ID, terminal state and task statuses | Pending live capture/review |
-| Deployment diagnosis | Two desired replicas, actual availability, image/run ID, events/logs | Pending live capture/review |
-| Multi-tool reasoning | Correlated results from all four integrations; no automatic retraining | Pending live capture/review |
+| Dataset provenance | Actual commit and MD5 match DVC and MLflow tags | Verified; see DVC and MLflow exports above |
+| Candidate selection | Recent recorded runs, F1 comparison and readiness caveat | Verified; see MLflow export above |
+| Pipeline execution | Actual DAG ID/run ID, terminal state and task statuses | Verified; all five tasks succeeded |
+| Deployment diagnosis | Two desired replicas, actual availability, image/run ID, events/logs | Container verified; cluster evidence pending enablement |
+| Multi-tool reasoning | Correlated results from all four integrations; no automatic retraining | Supported; Kubernetes must be reported unknown while disabled |
 
 Capture screenshots of each service for the defense. JSON exports are acceptable
 evidence too, but must show actual service responses rather than example values.
@@ -44,9 +56,12 @@ Injection: `python scripts/failure_demo.py validation --confirm` triggers the re
 DAG with `fail_validation=true`. Expected root cause is the intentional validation
 exception. After retries, `validate` should fail and later stages should be
 `upstream_failed`, with no model promotion. Ask the agent for pipeline diagnostics;
-verify it reads the failed task and available logs. Resolve by triggering a normal
-run without the injection, then verify all tasks succeed. Actual run ID, log
-excerpt, downstream states and recovered run ID: **pending live capture**.
+verify it reads the failed task and available logs. Actual run
+`manual__2026-11-15T16:44:35.833168+00:00` failed as intended: `validate` failed on
+attempt 3, and preprocessing, training, evaluation and quality gate were all
+`upstream_failed`. The exported logs contain the injected validation exception.
+See [actual validation failure](evidence/submission/failure-validation.json).
+Resolution is to remove the injection and run the normal DAG.
 
 ## Failure investigation 2: quality-gate rejection
 
@@ -56,8 +71,15 @@ rejection after evaluation has logged an MLflow run. The run should have
 `quality_gate=failed`; the last approved model should stay unchanged. Resolve by
 removing the injection, run normally, and verify the gate/model metadata. A unit
 test independently verifies that gate rejection preserves the promoted artifact.
-Actual failed run, MLflow tag, artifact comparison and recovered run ID:
-**pending live capture**.
+Actual run `manual__2026-11-15T16:47:36.167183+00:00` completed its first four stages
+successfully and failed `quality_gate` on attempt 3. Its MLflow run was tagged
+`quality_gate=failed`; the promoted model retained the previously approved run ID.
+See [actual quality failure](evidence/submission/failure-quality.json) and
+[MLflow/protected model evidence](evidence/submission/quality-failed-provenance.json).
+
+Recovery was verified with normal run
+`manual__2026-11-15T16:50:00.428049+00:00`: all five tasks succeeded again. See
+[actual recovery evidence](evidence/submission/airflow-recovery.json).
 
 ## Defense notes
 

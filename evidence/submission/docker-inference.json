@@ -1,0 +1,31 @@
+{
+  "image": "mlops-iris:verification",
+  "readiness_status": 200,
+  "readiness": {
+    "status": "ready",
+    "model": {
+      "run_id": "49c293fb32e147e2934e3cdc60231b74",
+      "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  },
+  "prediction_status": 200,
+  "prediction": {
+    "predictions": [
+      0
+    ],
+    "model": {
+      "run_id": "49c293fb32e147e2934e3cdc60231b74",
+      "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  }
+}

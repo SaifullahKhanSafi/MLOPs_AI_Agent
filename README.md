@@ -4,6 +4,9 @@ An evidence-driven conversational operator for DVC, MLflow, Apache Airflow 3 and
 Kubernetes. Includes a reproducible Iris classifier, a five-stage training DAG,
 quality-gated model promotion, FastAPI inference, two Kubernetes replicas and CI.
 
+For this prepared workspace, start with [MANUAL_STEPS.md](MANUAL_STEPS.md) and
+[STATUS.md](STATUS.md). They distinguish verified results from remaining setup.
+
 The agent runs on your workstation so it can inspect your Git/DVC repository and
 use your kubeconfig. Kubernetes runs the inference service. There are no fabricated
 service responses in normal operation. An unavailable tool returns an explicit error.
@@ -46,8 +49,12 @@ Never commit `.env`, `runtime/`, kubeconfig, or API keys.
 The committed `data/iris.csv.dvc` records the dataset hash. On the prepared repository:
 
 ```powershell
+dvc add data/iris.csv
 dvc status
 ```
+
+For the unchanged generated dataset, `dvc add` populates the local cache without
+changing the committed dataset reference.
 
 For a fresh dataset change, record the data **before training**:
 
@@ -135,6 +142,8 @@ Enter `trigger training`, review the proposed DAG, then enter `confirm`.
 Ask `Report training pipeline status and failed tasks` repeatedly until its terminal
 state. A trigger acknowledgment proves submission only; it does not prove success.
 Airflow runs have retries, explicit dependencies and one active run at a time.
+Alternatively, `python scripts/run_airflow.py --confirm` submits the approved DAG,
+waits for a terminal state, and exports the real run and task statuses.
 
 If Docker is unavailable, local pipeline verification can use SQLite tracking:
 

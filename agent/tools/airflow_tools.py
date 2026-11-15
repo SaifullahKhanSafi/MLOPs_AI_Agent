@@ -28,7 +28,12 @@ def list_dags() -> dict:
 
 
 def dag_runs(dag_id: str = "training_pipeline") -> dict:
-    return request("GET", dag_path(dag_id) + "/dagRuns?limit=10&order_by=-logical_date")
+    # Manually triggered Airflow 3 runs may have null logical_date.
+    return request("GET", dag_path(dag_id) + "/dagRuns?limit=10&order_by=-run_after")
+
+
+def dag_run(dag_id: str, run_id: str) -> dict:
+    return request("GET", dag_path(dag_id) + "/dagRuns/" + quote(run_id, safe=""))
 
 
 def task_instances(dag_id: str, run_id: str) -> dict:

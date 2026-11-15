@@ -1,0 +1,132 @@
+{
+  "best": {
+    "run_id": "1c9f74448d194f3f83edd5e8fe12c964",
+    "status": "FINISHED",
+    "start_time": 1794760998076,
+    "metrics": {
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473
+    },
+    "params": {
+      "n_estimators": "100",
+      "max_depth": "5",
+      "random_state": "42",
+      "test_size": "0.25"
+    },
+    "tags": {
+      "mlflow.user": "airflow",
+      "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+      "mlflow.source.type": "LOCAL",
+      "mlflow.runName": "delightful-wren-884",
+      "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "quality_gate": "passed"
+    }
+  },
+  "comparison": [
+    {
+      "run_id": "1c9f74448d194f3f83edd5e8fe12c964",
+      "status": "FINISHED",
+      "start_time": 1794760998076,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "airflow",
+        "mlflow.source.name": "/home/airflow/.local/bin/airflow",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.runName": "delightful-wren-884",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    },
+    {
+      "run_id": "5488a4d4b9d34e00a183bc7f846f440a",
+      "status": "FINISHED",
+      "start_time": 1794760840176,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "SKS",
+        "mlflow.source.name": "C:\\Users\\SKS\\Desktop\\mlops_A3\\training\\train.py",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.source.git.commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "mlflow.runName": "incongruous-eel-877",
+        "git_commit": "45328b500c276d161a25e03de1f83ac9878981e4",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "passed"
+      }
+    },
+    {
+      "run_id": "81fbdace36124ca3b713ee6b1cd0ed08",
+      "status": "RUNNING",
+      "start_time": 1794760138624,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "SKS",
+        "mlflow.source.name": "C:\\Users\\SKS\\Desktop\\mlops_A3\\training\\train.py",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.source.git.commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+        "mlflow.runName": "delightful-stag-788"
+      }
+    },
+    {
+      "run_id": "f2bc4ea30a5f4d98b8544554a377090a",
+      "status": "RUNNING",
+      "start_time": 1794759965949,
+      "metrics": {
+        "f1": 0.9229629629629629,
+        "accuracy": 0.9210526315789473
+      },
+      "params": {
+        "n_estimators": "100",
+        "max_depth": "5",
+        "random_state": "42",
+        "test_size": "0.25"
+      },
+      "tags": {
+        "mlflow.user": "SKS",
+        "mlflow.source.name": "C:\\Users\\SKS\\Desktop\\mlops_A3\\training\\train.py",
+        "mlflow.source.type": "LOCAL",
+        "mlflow.source.git.commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+        "mlflow.runName": "entertaining-jay-417",
+        "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+        "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+        "dvc_file": "data/iris.csv.dvc",
+        "quality_gate": "pending"
+      }
+    }
+  ],
+  "metric": "f1",
+  "direction": "max",
+  "selection_scope": "latest 5 runs in iris-classifier",
+  "caution": "Metric rank alone does not establish production readiness"
+}

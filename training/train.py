@@ -89,7 +89,7 @@ def evaluate(**_):
         mlflow.sklearn.log_model(
             model, name="candidate", input_example=data["x_test"][:2],
             pip_requirements=["mlflow==3.1.4", "scikit-learn==1.7.2", "numpy==2.2.6",
-                              "joblib==1.5.2"],
+                              "joblib==1.5.2", "dill==0.3.1.1"],
         )
         write_json("metrics.json", metrics)
         mlflow.log_artifact(str(OUT / "metrics.json"))

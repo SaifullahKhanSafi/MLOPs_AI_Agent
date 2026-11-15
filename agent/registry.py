@@ -20,14 +20,22 @@ log = logging.getLogger("mlops.tools")
 
 
 def redact(value):
-    text = json.dumps(value, default=str)
+    if isinstance(value, dict):
+        return {str(key): ("[REDACTED]" if item is not None and re.search(
+            r"(?i)password|token|api_?key|secret", str(key)) else redact(item))
+                for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [redact(item) for item in value]
+    if not isinstance(value, str):
+        return value
+    text = value
     for secret in (settings.openai_api_key, settings.airflow_password, settings.agent_api_key):
         if secret:
             text = text.replace(secret, "[REDACTED]")
     text = re.sub(r"(?i)(bearer\s+)[a-z0-9._-]+", r"\1[REDACTED]", text)
     text = re.sub(r"(?i)((?:password|token|api_key|secret)[\"'\s:=]+)[^\s,\"'}]+",
                   r"\1[REDACTED]", text)
-    return json.loads(text)
+    return text
 
 
 class Registry:
@@ -40,6 +48,7 @@ class Registry:
             "mlflow_compare": mf.compare_runs, "mlflow_registry": mf.registry,
             "mlflow_compare_experiments": mf.compare_experiments,
             "airflow_dags": af.list_dags, "airflow_runs": af.dag_runs,
+            "airflow_run": af.dag_run,
             "airflow_tasks": af.task_instances, "airflow_logs": af.task_logs,
             "airflow_trigger": af.trigger_dag,
             "k8s_workloads": ku.workloads, "k8s_services": ku.services,
