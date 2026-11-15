@@ -1,0 +1,14 @@
+.git
+.venv
+.tools
+.env
+runtime
+__pycache__
+.pytest_cache
+.ruff_cache
+.dvc
+evidence
+screenshots
+artifacts/*
+!artifacts/model.joblib
+!artifacts/model_metadata.json

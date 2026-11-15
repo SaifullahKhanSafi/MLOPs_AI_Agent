@@ -1,0 +1,50 @@
+stages:
+  validate:
+    cmd: python -m training.train validate
+    deps:
+      - data/iris.csv
+      - training/train.py
+    outs:
+      - artifacts/validation.json
+  preprocess:
+    cmd: python -m training.train preprocess
+    deps:
+      - data/iris.csv
+      - artifacts/validation.json
+      - training/train.py
+    outs:
+      - artifacts/processed.npz
+  train:
+    cmd: python -m training.train train
+    deps:
+      - artifacts/processed.npz
+      - training/train.py
+    outs:
+      - artifacts/candidate.joblib
+  evaluate:
+    cmd: python -m training.train evaluate
+    always_changed: true
+    deps:
+      - artifacts/candidate.joblib
+      - artifacts/processed.npz
+      - data/iris.csv
+      - training/train.py
+    outs:
+      - artifacts/run.json:
+          cache: false
+    metrics:
+      - artifacts/metrics.json:
+          cache: false
+  quality_gate:
+    cmd: python -m training.train quality_gate
+    deps:
+      - artifacts/run.json
+      - artifacts/candidate.joblib
+      - training/train.py
+    outs:
+      - artifacts/model.joblib:
+          cache: false
+          persist: true
+      - artifacts/model_metadata.json:
+          cache: false
+          persist: true

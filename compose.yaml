@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16.10-bookworm
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python scripts/bootstrap.py first}
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U airflow"]
+      interval: 5s
+      retries: 20
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      retries: 20
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    user: "50000:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_PASSWORD}@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/project/dags
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: admin:admin
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: /opt/project/runtime/airflow-passwords.json
+      AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET:?Run bootstrap.py first}
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://localhost:8080/execution/
+      PYTHONPATH: /opt/project
+      REPO_ROOT: /opt/project
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MLFLOW_EXPERIMENT: iris-classifier
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: /opt/project
+      MIN_F1: ${MIN_F1:-0.90}
+    command: standalone
+    working_dir: /opt/project
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - .:/opt/project
+      - airflow-logs:/opt/airflow/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mlflow:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/v2/monitor/health')"]
+      interval: 15s
+      start_period: 90s
+      retries: 30
+volumes:
+  postgres-data:
+  mlflow-data:
+  airflow-logs:
