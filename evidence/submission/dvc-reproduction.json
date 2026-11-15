@@ -1,0 +1,8 @@
+{
+  "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+  "dataset": "data/iris.csv",
+  "original_md5": "4224576f0267bf88902f87f0f6200967",
+  "reproduced_md5": "4224576f0267bf88902f87f0f6200967",
+  "method": "DVC push to local remote, then DVC pull in isolated Git worktree",
+  "matched": true
+}

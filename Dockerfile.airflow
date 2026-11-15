@@ -2,4 +2,6 @@ FROM apache/airflow:3.1.1-python3.12
 USER airflow
 RUN pip install --no-cache-dir "apache-airflow==3.1.1" "mlflow==3.1.4" \
     "scikit-learn==1.7.2" "pandas==2.3.3" "numpy==2.2.6" "joblib==1.5.2" \
-    "PyYAML==6.0.2" "pydantic-settings==2.10.1" "dvc==3.63.0" "pathspec==0.12.1"
+    "PyYAML==6.0.2" "pydantic-settings==2.10.1" "dvc==3.63.0"
+# Preserve Airflow's bundled Snowflake provider cffi constraint as well as DVC's pathspec API.
+RUN pip install --no-cache-dir pathspec==0.12.1 pygit2==1.18.2 cffi==1.17.1 && pip check

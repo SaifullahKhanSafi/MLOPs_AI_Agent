@@ -16,7 +16,7 @@ def list_datasets() -> dict:
 
 def dataset_version(rev: str = "HEAD") -> dict:
     rev = revision(rev)
-    commit = command(["git", "rev-parse", "--verify", f"{rev}^{{commit}} ".strip()]).strip()
+    commit = command(["git", "rev-parse", "--verify", rev + "^{commit}"]).strip()
     metadata = command(["git", "show", f"{commit}:data/iris.csv.dvc"])
     return {"git_commit": commit, "dvc_file": "data/iris.csv.dvc",
             "outputs": yaml.safe_load(metadata)["outs"],

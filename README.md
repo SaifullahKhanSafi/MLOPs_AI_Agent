@@ -11,7 +11,9 @@ service responses in normal operation. An unavailable tool returns an explicit e
 ## 1. Requirements
 
 - Python 3.12 and Git.
-- Docker Desktop using Linux containers, Compose v2, at least 6 GB RAM available.
+- Docker Desktop using Linux containers and Compose v2. Allow room for multiple
+  ML images: at least 10 GB free disk is recommended. Avoid parallel image builds
+  on an 8 GB RAM workstation; allow 4-6 GB to Docker when resources permit.
 - Docker Desktop **Settings > Kubernetes > Enable Kubernetes**, then wait for Ready.
 - `kubectl` on PATH; `kubectl config current-context` should show `docker-desktop`.
 - An OpenAI API key for LLM mode. Rules mode works without a paid key but is a
@@ -28,6 +30,11 @@ python -m venv .venv
 $env:Path = "$PWD\.venv\Scripts;$env:Path"
 python scripts/bootstrap.py
 ```
+
+After cloning, an automated alternative for environment installation, service launch,
+training, lint and tests is `powershell -ExecutionPolicy Bypass -File scripts/start.ps1`.
+Add `-Deploy` to explicitly request deployment after enabling Kubernetes. The
+step-by-step instructions below explain each operation and troubleshooting.
 
 For an existing environment, just set PATH and rerun bootstrap if needed. Bootstrap
 preserves existing `.env` values, generates local secrets without printing them,
@@ -46,7 +53,7 @@ For a fresh dataset change, record the data **before training**:
 
 ```powershell
 dvc add data/iris.csv
-git add data/iris.csv.dvc data/.gitignore
+git add data/iris.csv.dvc
 git commit -m "Version Iris dataset"
 ```
 
@@ -84,7 +91,7 @@ The agent's `dvc_version` returns the recorded hash, commit and reproduction ste
 ## 3. Start MLflow and Airflow 3
 
 ```powershell
-docker compose up -d --build
+docker compose --parallel 1 up -d --build
 docker compose ps
 docker compose logs --tail=40 airflow
 ```
@@ -96,7 +103,8 @@ LocalExecutor; `airflow standalone` starts its API, scheduler, DAG processor and
 triggerer. Services bind to localhost for this development environment.
 
 The agent authenticates at `/auth/token` and uses `/api/v2`, not Airflow 2's API.
-In the Airflow UI, unpause `training_pipeline` before triggering it. If it is missing,
+New DAGs are created unpaused. If an existing `training_pipeline` is paused, unpause
+it in the UI before triggering it. If it is missing,
 run `docker compose exec airflow airflow dags list-import-errors`.
 
 ## 4. Train and verify provenance
@@ -170,8 +178,8 @@ $body = @{ instances = @(@(5.1,3.5,1.4,0.2)) } | ConvertTo-Json -Depth 5
 Invoke-RestMethod http://localhost:8001/predict -Method Post -ContentType application/json -Body $body
 ```
 
-The inference container has no Kubernetes credentials. Its `/chat` route is disabled
-by missing agent credentials by default; use the workstation agent for operations.
+The inference container contains only prediction dependencies and has no Kubernetes
+credentials or `/chat` route. Use the workstation agent for operations.
 
 ## 6. Use the intelligent agent
 
@@ -251,6 +259,7 @@ Do not present mocked tests as live infrastructure evidence.
 | Symptom | Action |
 |---|---|
 | Docker engine pipe missing | Start Docker Desktop and wait for Linux engine Ready. |
+| Docker engine exits during builds | Check Docker resource limits and free disk; build services sequentially, then retry. |
 | `kubernetes.docker.internal` unresolved | Enable Kubernetes in Docker Desktop; wait for startup, then verify `kubectl get nodes`. |
 | Airflow cannot authenticate | Rerun bootstrap, verify `.env` password matches `runtime/airflow-passwords.json`, restart Airflow. |
 | DAG queued indefinitely | Unpause DAG, inspect scheduler health and import errors. |

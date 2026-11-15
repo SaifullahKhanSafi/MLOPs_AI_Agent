@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name "CI"
           git config user.email "ci@example.invalid"
-          git add .dvc data/iris.csv.dvc data/.gitignore .dvcignore
+          git add .dvc data/iris.csv.dvc .dvcignore
           git diff --cached --quiet || git commit -m "Record CI dataset"
       - name: Train against a local MLflow store
         env:

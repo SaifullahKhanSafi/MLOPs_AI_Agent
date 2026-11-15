@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -25,3 +26,10 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# MLflow's emoji run links can fail on Windows consoles using cp1252.
+# Run identifiers and tracking evidence are returned as structured data instead.
+os.environ.setdefault("MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT", "true")
+os.environ.setdefault("MLFLOW_HTTP_REQUEST_TIMEOUT", str(int(settings.tool_timeout)))
+os.environ.setdefault("MLFLOW_HTTP_REQUEST_MAX_RETRIES", "0")
+os.environ.setdefault("MLFLOW_ARTIFACT_UPLOAD_DOWNLOAD_TIMEOUT", str(int(settings.tool_timeout)))

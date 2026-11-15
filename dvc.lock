@@ -1,0 +1,106 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python -m training.train validate
+    deps:
+    - path: data/iris.csv
+      hash: md5
+      md5: 4224576f0267bf88902f87f0f6200967
+      size: 2757
+    - path: training/train.py
+      hash: md5
+      md5: 520c55109d83f456de7e07a31b9afdf6
+      size: 5287
+    outs:
+    - path: artifacts/validation.json
+      hash: md5
+      md5: ede541e8dbd564c5a0946a860f6d5768
+      size: 37
+  preprocess:
+    cmd: python -m training.train preprocess
+    deps:
+    - path: artifacts/validation.json
+      hash: md5
+      md5: ede541e8dbd564c5a0946a860f6d5768
+      size: 37
+    - path: data/iris.csv
+      hash: md5
+      md5: 4224576f0267bf88902f87f0f6200967
+      size: 2757
+    - path: training/train.py
+      hash: md5
+      md5: 520c55109d83f456de7e07a31b9afdf6
+      size: 5287
+    outs:
+    - path: artifacts/processed.npz
+      hash: md5
+      md5: 068e36d41fe7ab6021792493b28c3e32
+      size: 7002
+  train:
+    cmd: python -m training.train train
+    deps:
+    - path: artifacts/processed.npz
+      hash: md5
+      md5: 068e36d41fe7ab6021792493b28c3e32
+      size: 7002
+    - path: training/train.py
+      hash: md5
+      md5: 520c55109d83f456de7e07a31b9afdf6
+      size: 5287
+    outs:
+    - path: artifacts/candidate.joblib
+      hash: md5
+      md5: 79fd01884fc1f6063388bef14a0dc63d
+      size: 153633
+  evaluate:
+    cmd: python -m training.train evaluate
+    deps:
+    - path: artifacts/candidate.joblib
+      hash: md5
+      md5: 79fd01884fc1f6063388bef14a0dc63d
+      size: 153633
+    - path: artifacts/processed.npz
+      hash: md5
+      md5: 068e36d41fe7ab6021792493b28c3e32
+      size: 7002
+    - path: data/iris.csv
+      hash: md5
+      md5: 4224576f0267bf88902f87f0f6200967
+      size: 2757
+    - path: training/train.py
+      hash: md5
+      md5: 520c55109d83f456de7e07a31b9afdf6
+      size: 5287
+    outs:
+    - path: artifacts/metrics.json
+      hash: md5
+      md5: b95b88d9b11452ae001145005ea0de78
+      size: 67
+    - path: artifacts/run.json
+      hash: md5
+      md5: 41ced13a93844cea29abcbde46100613
+      size: 267
+  quality_gate:
+    cmd: python -m training.train quality_gate
+    deps:
+    - path: artifacts/candidate.joblib
+      hash: md5
+      md5: 79fd01884fc1f6063388bef14a0dc63d
+      size: 153633
+    - path: artifacts/run.json
+      hash: md5
+      md5: 41ced13a93844cea29abcbde46100613
+      size: 267
+    - path: training/train.py
+      hash: md5
+      md5: 520c55109d83f456de7e07a31b9afdf6
+      size: 5287
+    outs:
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: 79fd01884fc1f6063388bef14a0dc63d
+      size: 153633
+    - path: artifacts/model_metadata.json
+      hash: md5
+      md5: fcb394042662ca4ff308fc1adf4cddba
+      size: 296

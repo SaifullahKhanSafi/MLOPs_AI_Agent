@@ -15,7 +15,8 @@ from agent.tools import airflow_tools as af
 from agent.tools import dvc_tools as dv
 from agent.tools import kubernetes_tools as ku
 from agent.tools import mlflow_tools as mf
-from api.main import app, state
+from api.inference import state
+from api.main import app
 
 
 @pytest.fixture(autouse=True)

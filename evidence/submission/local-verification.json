@@ -1,0 +1,56 @@
+{
+  "captured_at": "2026-11-15T16:23:49.072466+00:00",
+  "scope": "Actual local stages and FastAPI inference; not Airflow or Kubernetes",
+  "model": {
+    "run_id": "49c293fb32e147e2934e3cdc60231b74",
+    "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+    "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+    "dvc_file": "data/iris.csv.dvc",
+    "f1": 0.9229629629629629,
+    "accuracy": 0.9210526315789473,
+    "quality_gate": "passed"
+  },
+  "readiness": {
+    "status": "ready",
+    "model": {
+      "run_id": "49c293fb32e147e2934e3cdc60231b74",
+      "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  },
+  "prediction": {
+    "predictions": [
+      0
+    ],
+    "model": {
+      "run_id": "49c293fb32e147e2934e3cdc60231b74",
+      "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+      "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+      "dvc_file": "data/iris.csv.dvc",
+      "f1": 0.9229629629629629,
+      "accuracy": 0.9210526315789473,
+      "quality_gate": "passed"
+    }
+  },
+  "validation_failure": {
+    "observed_error": "Injected validation failure: missing target column",
+    "resolution": "Remove injected flag"
+  },
+  "quality_failure": {
+    "observed_error": "Quality gate failed: F1=0.9230, minimum=0.9",
+    "promoted_model_preserved": true
+  },
+  "recovery": {
+    "run_id": "49c293fb32e147e2934e3cdc60231b74",
+    "git_commit": "2c755e10ea7e25240bbe3e276063b685c1bf21df",
+    "dataset_md5": "4224576f0267bf88902f87f0f6200967",
+    "dvc_file": "data/iris.csv.dvc",
+    "f1": 0.9229629629629629,
+    "accuracy": 0.9210526315789473,
+    "quality_gate": "passed"
+  }
+}

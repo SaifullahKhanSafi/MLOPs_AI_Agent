@@ -45,5 +45,9 @@ def task_logs(dag_id: str, run_id: str, task_id: str, try_number: int = 1) -> di
 
 
 def trigger_dag(dag_id: str = "training_pipeline", conf: dict | None = None) -> dict:
+    conf = conf or {}
+    if set(conf) - {"fail_validation", "force_quality_failure"} or any(
+            not isinstance(value, bool) for value in conf.values()):
+        raise ValueError("Only boolean failure-demo flags are supported in DAG configuration")
     return request("POST", dag_path(dag_id) + "/dagRuns", {"logical_date": None,
-                                                          "conf": conf or {}})
+                                                          "conf": conf})

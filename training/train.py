@@ -86,7 +86,11 @@ def evaluate(**_):
         mlflow.log_metrics(metrics)
         mlflow.set_tags({**tags, "quality_gate": "pending"})
         mlflow.log_artifact(str(ROOT / "data/iris.csv.dvc"), "provenance")
-        mlflow.sklearn.log_model(model, name="candidate", input_example=data["x_test"][:2])
+        mlflow.sklearn.log_model(
+            model, name="candidate", input_example=data["x_test"][:2],
+            pip_requirements=["mlflow==3.1.4", "scikit-learn==1.7.2", "numpy==2.2.6",
+                              "joblib==1.5.2"],
+        )
         write_json("metrics.json", metrics)
         mlflow.log_artifact(str(OUT / "metrics.json"))
         write_json("run.json", {"run_id": run.info.run_id, **tags, **metrics})
